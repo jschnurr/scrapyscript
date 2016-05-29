@@ -39,6 +39,7 @@ Processor().run(job)
 ```
 
 **API**
+``` text
 scrapyscript.Job = class Job(__builtin__.object)
  |  A job is a single request to call a specific spider, and optionally
  |  pass in a payload object which will be available inside the running spider.
@@ -81,3 +82,4 @@ scrapyscript.Processor = class Processor(multiprocessing.process.Process)
  |      Returns:
  |        List of objects yielded by the spiders after all jobs have run.
  |  
+```
