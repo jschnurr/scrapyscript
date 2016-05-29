@@ -12,10 +12,6 @@ from os import path
 
 here = path.abspath(path.dirname(__file__))
 
-# Get the long description from the README file
-with open(path.join(here, 'README'), encoding='utf-8') as f:
-    long_description = f.read()
-
 setup(
     name='scrapyscript',
 
@@ -24,8 +20,8 @@ setup(
     # https://packaging.python.org/en/latest/single_source_version.html
     version='0.0.1',
 
-    description='Minimalist interface for using Scrapy in Python scripts',
-    long_description=long_description,
+    description = 'Minimalist interface for running Scrapy from a script - no project required',
+    long_description='Scrapyscript (SS) allows you to invoke one or more spiders from a script, have them all run in parallel, and get the results back as a single list.  No scrapy project, no boilerplate, no hassle.',
 
     # The project's main homepage.
     url='https://github.com/jschnurr/scrapyscript',
@@ -65,9 +61,7 @@ setup(
     # installed, specify them here.  If using Python 2.6 or less, then these
     # have to be included in MANIFEST.in as well.
     package_data={
-        # '':['README.md']
     },
-    # include_package_data=True,
 
     # Although 'package_data' is the preferred approach, in some case you may
     # need to place data files outside of your packages. See:

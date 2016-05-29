@@ -38,9 +38,6 @@ Processor().run(job)
 [{'data': [<Selector xpath='//title/text()' data=u'Welcome to Python.org'>]}]
 ```
 
-**Installation**
-pip install scrapyscript
-
 **API**
 scrapyscript.Job = class Job(__builtin__.object)
  |  A job is a single request to call a specific spider, and optionally
