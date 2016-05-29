@@ -1,0 +1,18 @@
+*Scrapy Script*
+
+Minimalist interface for Scrapy, Python's favorite web scraping framework.
+
+Scrapyscript (SS) allows you to invoke one or more spiders from a script, have them all run in parallel, and get the results back as a single list.  No scrapy project, no boilerplate, no hassle.
+
+**Examples**
+Let's create a spider that retrieves every link on www.python.org.
+
+``` python
+from scrapyscript import Job, Processor
+from scrapy.spiders import Spider
+
+class PythonSpider(Spider):
+    name = 'myspider'
+    start_urls = ['http://www.python.org']
+    
+     
