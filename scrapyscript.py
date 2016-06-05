@@ -6,8 +6,8 @@ spiders are returned as a list.
 '''
 
 import collections
-from multiprocessing import Process
-from multiprocessing.queues import Queue
+from billiard import Process  # fork of multiprocessing that works with celery
+from billiard.queues import Queue
 
 from pydispatch import dispatcher
 from scrapy import signals
