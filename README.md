@@ -101,7 +101,7 @@ scrapyscript.Processor = class Processor(billiard.process.Process)
 ```
 
 # Notes
-**Multiprocessing vs Billiard**
+## Multiprocessing vs Billiard
 Scrapyscript spawns a subprocess to support the Twisted reactor. Billiard
 provides a fork of the multiprocessing library that supports Celery. This
 allows you to schedule scrapy spiders to run as Celery tasks.
