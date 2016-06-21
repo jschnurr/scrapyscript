@@ -1,3 +1,4 @@
+![Travis](https://travis-ci.org/jschnurr/scrapyscript.svg?branch=master)
 # Overview
 
 Scrapyscript provides a minimalist interface for invoking Scrapy directly
@@ -111,7 +112,6 @@ Run all tests:
 ```bash
 tox
 ```
-![Travis](https://travis-ci.org/jschnurr/scrapyscript.svg?branch=master)
 
 # Contributing
 Updates, additional features or bug fixes are always welcome.
