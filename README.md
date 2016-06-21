@@ -1,4 +1,4 @@
-*Overview*
+# Overview
 
 Scrapyscript provides a minimalist interface for invoking Scrapy directly
 from your code. Define Jobs that include your spider and any object
@@ -9,16 +9,16 @@ of consolidated results.
 Useful for leveraging the vast power of Scrapy from existing code, or to
 run Scrapy from a Celery job.
 
-*Requirements*
+# Requirements
 - Python 2.7 or 3.4
 - Tested on Linux only (other platforms may work as well)
 
-*Install*
+# Install
 ```python
 pip install scrapyscript
 ```
 
-*Examples*
+# Examples
 Let's create a spider that retrieves the title attribute from www.python.org.
 
 ``` python
@@ -52,7 +52,7 @@ Processor().run(job)
 [{'data': [<Selector xpath='//title/text()' data=u'Welcome to Python.org'>]}]
 ```
 
-*Jobs*
+# Jobs
  A job is a single request to call a specific spider, and optionally
  pass in a payload object which will be available inside the running spider.
 
@@ -75,7 +75,7 @@ scrapyscript.Job = class Job(object)
  |  
 ```
 
-*Processor*
+# Processor
  Start a twisted reactor and run the provided scrapy spiders.
  Blocks until all have finished.
 ```text
@@ -100,20 +100,20 @@ scrapyscript.Processor = class Processor(billiard.process.Process)
  |  
 ```
 
-*Notes*
+# Notes
 **Multiprocessing vs Billiard**
 Scrapyscript spawns a subprocess to support the Twisted reactor. Billiard
 provides a fork of the multiprocessing library that supports Celery. This
 allows you to schedule scrapy spiders to run as Celery tasks.
 
-*Tests*
+# Tests
 Run all tests:
 ```bash
 tox
 ```
 
-*Contributing*
+# Contributing
 Updates, additional features or bug fixes are always welcome.
 
-*License*
+# License
 The MIT License (MIT). See LICENCE file for details.
