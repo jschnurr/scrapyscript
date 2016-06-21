@@ -1,4 +1,4 @@
-.PHONY: clean test
+.PHONY: clean test sdist release
 
 help:
 	@echo "test - run tests"
@@ -7,7 +7,7 @@ help:
 	@echo "release - create an sdist and upload"
 
 test: clean
-	nosetests
+	tox
 
 sdist:
 	python setup.py sdist

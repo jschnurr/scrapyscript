@@ -18,10 +18,10 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='0.0.3',
+    version='0.0.4',
 
-    description = 'Minimalist interface for running Scrapy from a script - no project required',
-    long_description='Scrapyscript (SS) allows you to invoke one or more spiders from a script, have them all run in parallel, and get the results back as a single list.  No scrapy project, no boilerplate, no hassle.',
+    description = 'Run scrapy spider from a script of Celery task - no project required',
+    long_description='scrapyscript allows you to invoke one or more spiders from a script, have them all run in parallel, and get the results back as a single list.  No scrapy project, no boilerplate, no hassle.',
 
     # The project's main homepage.
     url='https://github.com/jschnurr/scrapyscript',
@@ -38,6 +38,10 @@ setup(
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.4',
+        'Framework :: Scrapy',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: MIT License'
     ],
 
     # What does your project relate to?
@@ -55,7 +59,9 @@ setup(
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['scrapy'],
+    install_requires=['Scrapy>=1.1.0',
+                      'billiard>=3.3.0.23',
+    ],
 
     # If there are data files included in your packages that need to be
     # installed, specify them here.  If using Python 2.6 or less, then these

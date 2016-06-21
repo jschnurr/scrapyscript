@@ -1,10 +1,24 @@
-*Scrapy Script*
+*Overview*
 
-Minimalist interface for Scrapy, Python's favorite web scraping framework.
+Scrapyscript provides a minimalist interface for invoking Scrapy directly
+from your code. Define Jobs that include your spider and any object
+you would like to pass to the running spider, and then pass them to an
+instance of Processor which will block, run the spiders, and return a list
+of consolidated results.
 
-Scrapyscript (SS) allows you to invoke one or more spiders from a script, have them all run in parallel, and get the results back as a single list.  No scrapy project, no boilerplate, no hassle.
+Useful for leveraging the vast power of Scrapy from existing code, or to
+run Scrapy from a Celery job.
 
-**Examples**
+*Requirements*
+- Python 2.7 or 3.4
+- Tested on Linux only (other platforms may work as well)
+
+*Install*
+```python
+pip install scrapyscript
+```
+
+*Examples*
 Let's create a spider that retrieves the title attribute from www.python.org.
 
 ``` python
@@ -38,13 +52,12 @@ Processor().run(job)
 [{'data': [<Selector xpath='//title/text()' data=u'Welcome to Python.org'>]}]
 ```
 
-**API**
+*Jobs*
+ A job is a single request to call a specific spider, and optionally
+ pass in a payload object which will be available inside the running spider.
+
 ``` text
-scrapyscript.Job = class Job(__builtin__.object)
- |  A job is a single request to call a specific spider, and optionally
- |  pass in a payload object which will be available inside the running spider.
- |  
- |  Methods defined here:
+scrapyscript.Job = class Job(object)
  |  
  |  __init__(self, spider, payload=None)
  |      Parms:
@@ -53,19 +66,22 @@ scrapyscript.Job = class Job(__builtin__.object)
  |                          runtime.
  |  
  |  ----------------------------------------------------------------------
- |  Class methods defined here:
+ |  Class methods:
  |  
- |  from_xpath(cls, url, xpath, payload={}) from __builtin__.type
+ |  from_xpath(cls, url, xpath, payload={})
  |      Convenience method that returns a Job with a dynamically created
  |      spider.  The spider opens url, and returns the results of an xpath
  |      search of the response.
  |  
+```
 
-scrapyscript.Processor = class Processor(multiprocessing.process.Process)
- |  Start a twisted reactor and run the provided scrapy spiders.
- |  Blocks until all have finished.
+*Processor*
+ Start a twisted reactor and run the provided scrapy spiders.
+ Blocks until all have finished.
+```text
+scrapyscript.Processor = class Processor(billiard.process.Process)
  |  
- |  Methods defined here:
+ |  Methods:
  |  
  |  __init__(self, settings=None)
  |      Parms:
@@ -83,3 +99,21 @@ scrapyscript.Processor = class Processor(multiprocessing.process.Process)
  |        List of objects yielded by the spiders after all jobs have run.
  |  
 ```
+
+*Notes*
+**Multiprocessing vs Billiard**
+Scrapyscript spawns a subprocess to support the Twisted reactor. Billiard
+provides a fork of the multiprocessing library that supports Celery. This
+allows you to schedule scrapy spiders to run as Celery tasks.
+
+*Tests*
+Run all tests:
+```bash
+tox
+```
+
+*Contributing*
+Updates, additional features or bug fixes are always welcome.
+
+*License*
+The MIT License (MIT). See LICENCE file for details.
