@@ -72,7 +72,6 @@ class Processor(Process):
         '''
         kwargs = {'ctx':__import__('billiard.synchronize')}
         self.results = Queue(**kwargs)
-        self.results = Queue()
         self.items = []
         self.settings = settings or Settings()
         dispatcher.connect(self._item_passed, signals.item_passed)
