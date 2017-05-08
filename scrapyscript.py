@@ -70,7 +70,8 @@ class Processor(Process):
           settings (scrapy.settings.Settings) - settings to apply.  Defaults
         to Scrapy default settings.
         '''
-        self.results = Queue()
+        kwargs = {'ctx':__import__('billiard.synchronize')}
+        self.results = Queue(**kwargs)
         self.items = []
         self.settings = settings or Settings()
         dispatcher.connect(self._item_passed, signals.item_passed)
