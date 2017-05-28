@@ -46,7 +46,7 @@ class Job(object):
         search of the response.'''
 
         def parse(self, response):
-            return {'data': response.xpath(self._xpath)}
+            return {'data': response.xpath(self._xpath).extract()}
 
         name = ''.join(ch for ch in url if ch.isalnum())
         spider = type('QuickSpider', (Spider, ), {
@@ -71,6 +71,7 @@ class Processor(Process):
         to Scrapy default settings.
         '''
         kwargs = {'ctx':__import__('billiard.synchronize')}
+
         self.results = Queue(**kwargs)
         self.items = []
         self.settings = settings or Settings()

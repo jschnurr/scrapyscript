@@ -11,7 +11,7 @@ Useful for leveraging the vast power of Scrapy from existing code, or to
 run Scrapy from a Celery job.
 
 # Requirements
-- Python 2.7 or 3.4
+- Python 2.7 or 3.5
 - Tested on Linux only (other platforms may work as well)
 
 # Install
@@ -50,8 +50,17 @@ Processor().run(job)
 ```
 
 ``` text
-[{'data': [<Selector xpath='//title/text()' data=u'Welcome to Python.org'>]}]
+{'data': [u'Welcome to Python.org']}
 ```
+# Spider Output Types
+As per the [scrapy docs](https://doc.scrapy.org/en/latest/topics/spiders.html), a Spider
+must return an iterable of **Request** and/or **dicts** or **Item** objects.  
+
+Requests will be consumed by Scrapy inside the Job. Dicts or Item objects will be queued
+and output together when all spiders are finished.  
+
+Due to the way billiard handles communication between processes, each dict or item must be
+pickle-able using pickle protocol 0.
 
 # Jobs
  A job is a single request to call a specific spider, and optionally
@@ -115,6 +124,10 @@ tox
 
 # Contributing
 Updates, additional features or bug fixes are always welcome.
+
+# Version History
+0.1.0 - 28-May-2017 - patches to support Celery 4+ and Billiard 3.5.+.  
+Thanks to @mrge and @bmartel.
 
 # License
 The MIT License (MIT). See LICENCE file for details.
