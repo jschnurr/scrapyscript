@@ -18,9 +18,9 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='0.1.0',
+    version='1.0.0',
 
-    description = 'Run a Scrapy spider programmatically from a script or a Celery task - no project required.',
+    description='Run a Scrapy spider programmatically from a script or a Celery task - no project required.',
     long_description='scrapyscript allows you to invoke one or more spiders from a script, have them all run in parallel, and get the results back as a single list.  No scrapy project, no boilerplate, no hassle.',
 
     # The project's main homepage.
@@ -59,8 +59,8 @@ setup(
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['Scrapy>=1.4.0',
-                      'billiard>=3.5.0.2',
+    install_requires=['Scrapy==1.4.0',
+                      'billiard==3.5.0.2',
     ],
 
     # If there are data files included in your packages that need to be

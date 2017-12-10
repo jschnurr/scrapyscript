@@ -1,2 +1,2 @@
-Scrapy>=1.4.0
-billiard>=3.5.0.2
+Scrapy==1.4.0
+billiard==3.5.0.2

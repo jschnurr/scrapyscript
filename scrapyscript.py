@@ -6,6 +6,7 @@ spiders are returned as a list.
 '''
 
 import collections
+import inspect
 from billiard import Process  # fork of multiprocessing that works with celery
 from billiard.queues import Queue
 
@@ -21,42 +22,17 @@ class ScrapyScriptException(Exception):
 
 
 class Job(object):
-    '''A job is a single request to call a specific spider, and optionally
-    pass in a payload object which will be available inside the running spider.
+    '''A job is a single request to call a specific spider. *args and **kwargs
+    will be passed to the spider constructor.
     '''
 
-    def __init__(self, spider, payload=None):
+    def __init__(self, spider, *args, **kwargs):
         '''Parms:
-          spider (scrapy.spiders.Spider): the spider to be run for this job.
-          payload - optional: Arbitrary object to be passed into the spider at
-                              runtime.
+          spider (spidercls): the spider to be run for this job.
         '''
-        if not isinstance(spider, Spider):
-            raise ScrapyScriptException(
-                'Must provide instance of scrapy.spiders.Spider, got %s' %
-                type(spider))
-
         self.spider = spider
-        self.payload = payload
-
-    @classmethod
-    def from_xpath(cls, url, xpath, payload={}):
-        '''Convenience method that returns a Job with a dynamically created
-        spider.  The spider opens url, and returns the results of an xpath
-        search of the response.'''
-
-        def parse(self, response):
-            return {'data': response.xpath(self._xpath).extract()}
-
-        name = ''.join(ch for ch in url if ch.isalnum())
-        spider = type('QuickSpider', (Spider, ), {
-            'name': name,
-            '_xpath': xpath,
-            'start_urls': [url],
-            'parse': parse,
-        })
-
-        return cls(spider(), payload=payload)
+        self.args = args
+        self.kwargs = kwargs
 
 
 class Processor(Process):
@@ -70,7 +46,7 @@ class Processor(Process):
           settings (scrapy.settings.Settings) - settings to apply.  Defaults
         to Scrapy default settings.
         '''
-        kwargs = {'ctx':__import__('billiard.synchronize')}
+        kwargs = {'ctx': __import__('billiard.synchronize')}
 
         self.results = Queue(**kwargs)
         self.items = []
@@ -90,7 +66,7 @@ class Processor(Process):
 
         # crawl can be called multiple times to queue several requests
         for req in requests:
-            self.crawler.crawl(req.spider, payload=req.payload)
+            self.crawler.crawl(req.spider, *req.args, **req.kwargs)
 
         self.crawler.start()
         self.crawler.stop()
