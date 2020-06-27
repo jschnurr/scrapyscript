@@ -6,3 +6,4 @@ scrapyscript.egg-info/
 .#*
 .tox/
 .venv/
+.vscode/
