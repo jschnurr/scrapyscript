@@ -1,2 +1,4 @@
-Scrapy==1.4.0
-billiard==3.5.0.2
+billiard==3.6.3.0
+black==19.10b0
+Scrapy==2.2.0
+tox==3.16.0

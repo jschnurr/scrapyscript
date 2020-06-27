@@ -7,8 +7,11 @@ help:
 	@echo "release - create an sdist and upload to pypi"
 	@echo "test-release - create an sdist and upload to testpypi"
 
-test: clean
-	tox
+lint:
+	black --check --diff --quiet src
+
+test: clean lint
+	python tests.py
 
 sdist:
 	python setup.py sdist
