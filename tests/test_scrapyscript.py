@@ -7,7 +7,7 @@ import scrapy
 from scrapyscript import Job, Processor, ScrapyScriptException
 
 
-class TestSpider(Spider):
+class MySpider(Spider):
     name = 'myspider'
 
     def start_requests(self):
@@ -21,7 +21,7 @@ class TestSpider(Spider):
         return ret
 
 
-class TestBadSpider(Spider):
+class BadSpider(Spider):
     name = 'badspider'
 
     def start_requests(self):
@@ -45,7 +45,7 @@ class ParamReturnSpider(Spider):
 
 class ScrapyScriptTests(unittest.TestCase):
     def test_create_valid_job(self):
-        spider = TestSpider
+        spider = MySpider
         job = Job(spider)
         self.assertIsInstance(job, Job)
 
@@ -61,15 +61,15 @@ class ScrapyScriptTests(unittest.TestCase):
     def test_settings_flow_through_to_spider(self):
         settings = Settings()
         settings['BOT_NAME'] = 'alpha'
-        job = Job(TestSpider, url='http://www.python.org')
+        job = Job(MySpider, url='http://www.python.org')
         results = Processor(settings=settings).run(job)
 
         self.assertIn({'bot': 'alpha'}, results)
 
     def test_mulitple_jobs(self):
         jobs = [
-            Job(TestSpider, url='http://www.python.org'),
-            Job(TestSpider, url='http://www.github.com')
+            Job(MySpider, url='http://www.python.org'),
+            Job(MySpider, url='http://www.github.com')
         ]
 
         results = Processor().run(jobs)
