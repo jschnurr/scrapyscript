@@ -51,9 +51,9 @@ class Processor(Process):
         self.results = Queue(**kwargs)
         self.items = []
         self.settings = settings or Settings()
-        dispatcher.connect(self._item_passed, signals.item_passed)
+        dispatcher.connect(self._item_scraped, signals.item_scraped)
 
-    def _item_passed(self, item):
+    def _item_scraped(self, item):
         self.items.append(item)
 
     def _crawl(self, requests):
