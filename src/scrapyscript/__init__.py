@@ -82,7 +82,7 @@ class Processor(Process):
         Returns:
           List of objects yielded by the spiders after all jobs have run.
         """
-        if not isinstance(jobs, collections.Iterable):
+        if not isinstance(jobs, collections.abc.Iterable):
             jobs = [jobs]
         self.validate(jobs)
 
