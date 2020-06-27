@@ -11,7 +11,8 @@ lint:
 	black --check --diff --quiet src
 
 test: clean lint
-	python tests.py
+	python setup.py check -m -s
+	py.test tests
 
 sdist:
 	python setup.py sdist

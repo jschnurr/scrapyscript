@@ -95,7 +95,7 @@ pickle-able using pickle protocol 0.
 def __init__(self, spider, *args, **kwargs):
     '''Parameters:
         spider (spidercls): the spider to be run for this job.
-    '''    
+    '''
 ```
 
 # Processor
@@ -137,7 +137,9 @@ allows you to schedule scrapy spiders to run as Celery tasks.
 
 # Tests
 
-Run all tests:
+To test locally, install the package in editable mode with `pip install -e .` and run `py.test tests`.
+
+Using Tox:
 
 ```bash
 tox
@@ -149,8 +151,8 @@ Updates, additional features or bug fixes are always welcome.
 
 # Version History
 
-1.0.0 - 10-Dec-2017 - API changes to pass *args and **kwargs to running spider  
-0.1.0 - 28-May-2017 - patches to support Celery 4+ and Billiard 3.5.+.  
+1.0.0 - 10-Dec-2017 - API changes to pass *args and **kwargs to running spider
+0.1.0 - 28-May-2017 - patches to support Celery 4+ and Billiard 3.5.+.
 Thanks to @mrge and @bmartel.
 
 # License
