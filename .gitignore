@@ -5,3 +5,4 @@ dist/
 scrapyscript.egg-info/
 .#*
 .tox/
+.venv/
