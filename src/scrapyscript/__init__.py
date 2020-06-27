@@ -1,9 +1,9 @@
-'''
+"""
 Run scrapy spiders from a script.
 
 Blocks and runs all requests in parallel.  Accumulated items from all
 spiders are returned as a list.
-'''
+"""
 
 import collections
 import inspect
@@ -22,31 +22,31 @@ class ScrapyScriptException(Exception):
 
 
 class Job(object):
-    '''A job is a single request to call a specific spider. *args and **kwargs
+    """A job is a single request to call a specific spider. *args and **kwargs
     will be passed to the spider constructor.
-    '''
+    """
 
     def __init__(self, spider, *args, **kwargs):
-        '''Parms:
+        """Parms:
           spider (spidercls): the spider to be run for this job.
-        '''
+        """
         self.spider = spider
         self.args = args
         self.kwargs = kwargs
 
 
 class Processor(Process):
-    ''' Start a twisted reactor and run the provided scrapy spiders.
+    """ Start a twisted reactor and run the provided scrapy spiders.
     Blocks until all have finished.
-    '''
+    """
 
     def __init__(self, settings=None):
-        '''
+        """
         Parms:
           settings (scrapy.settings.Settings) - settings to apply.  Defaults
         to Scrapy default settings.
-        '''
-        kwargs = {'ctx': __import__('billiard.synchronize')}
+        """
+        kwargs = {"ctx": __import__("billiard.synchronize")}
 
         self.results = Queue(**kwargs)
         self.items = []
@@ -57,11 +57,11 @@ class Processor(Process):
         self.items.append(item)
 
     def _crawl(self, requests):
-        '''
+        """
         Parameters:
             requests (Request) - One or more Jobs. All will
                                  be loaded into a single invocation of the reactor.
-        '''
+        """
         self.crawler = CrawlerProcess(self.settings)
 
         # crawl can be called multiple times to queue several requests
@@ -73,7 +73,7 @@ class Processor(Process):
         self.results.put(self.items)
 
     def run(self, jobs):
-        '''Start the Scrapy engine, and execute all jobs.  Return consolidated results
+        """Start the Scrapy engine, and execute all jobs.  Return consolidated results
         in a single list.
 
         Parms:
@@ -81,7 +81,7 @@ class Processor(Process):
 
         Returns:
           List of objects yielded by the spiders after all jobs have run.
-        '''
+        """
         if not isinstance(jobs, collections.Iterable):
             jobs = [jobs]
         self.validate(jobs)
@@ -95,4 +95,4 @@ class Processor(Process):
 
     def validate(self, jobs):
         if not all([isinstance(x, Job) for x in jobs]):
-            raise ScrapyScriptException('scrapyscript requires Job objects.')
+            raise ScrapyScriptException("scrapyscript requires Job objects.")
