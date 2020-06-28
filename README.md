@@ -13,7 +13,7 @@ run Scrapy from a Celery job.
 
 # Requirements
 
-- Python 2.7 or 3.5
+- Python 3.5+
 - Tested on Linux only (other platforms may work as well)
 
 # Install
@@ -135,22 +135,20 @@ Scrapyscript spawns a subprocess to support the Twisted reactor. Billiard
 provides a fork of the multiprocessing library that supports Celery. This
 allows you to schedule scrapy spiders to run as Celery tasks.
 
-# Tests
-
-To test locally, install the package in editable mode with `pip install -e .` and run `py.test tests`.
-
-Using Tox:
-
-```bash
-tox
-```
-
 # Contributing
 
 Updates, additional features or bug fixes are always welcome.
 
+## Setup
+- Install (Poetry)[https://python-poetry.org/docs/#installation]
+- `poetry install`
+
+## Tests
+- `make test` or `make tox`
+
 # Version History
 
+1.1.0 - 27-Jun-2020 - Python 3.5+ only, dependency version bumps
 1.0.0 - 10-Dec-2017 - API changes to pass *args and **kwargs to running spider
 0.1.0 - 28-May-2017 - patches to support Celery 4+ and Billiard 3.5.+.
 Thanks to @mrge and @bmartel.
