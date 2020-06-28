@@ -28,8 +28,7 @@ class BadSpider(Spider):
         yield scrapy.Request('http://www.python.org')
 
     def parse(self, response):
-        return {'payload': response}  # cannot be pickled with proto 0
-
+        return True
 
 class ParamReturnSpider(Spider):
     name = 'myspider'
@@ -75,10 +74,10 @@ class ScrapyScriptTests(unittest.TestCase):
         results = Processor().run(jobs)
         self.assertEqual(len(results), 4)
 
-    # def test_bad_return_value(self):
-    #     job = Job(TestBadSpider, url='http://www.python.org')
-    #     results = Processor().run(job)
-    #     self.assertEqual(len(results), 4)
+    def test_bad_return_value(self):
+        job = Job(BadSpider, url='http://www.python.org')
+        results = Processor().run(job)
+        self.assertEqual(results, [])
 
 if __name__ == '__main__':
     unittest.main()
