@@ -21,7 +21,7 @@ include = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.5"
 billiard = "3.6.3.0"
 scrapy = "^2.2.0"
 
@@ -38,7 +38,7 @@ build-backend = "poetry.masonry.api"
 legacy_tox_ini = """
 [tox]
 isolated_build = true
-envlist = py36,py38
+envlist = py35,py36,py38
 
 [testenv]
 whitelist_externals = poetry
