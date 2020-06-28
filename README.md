@@ -1,4 +1,4 @@
-![Travis](https://travis-ci.org/jschnurr/scrapyscript.svg?branch=master)
+![Build](https://github.com/jschnurr/scrapyscript/workflows/Tests/badge.svg)
 
 # Overview
 

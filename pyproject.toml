@@ -16,7 +16,6 @@ classifiers = [
         'License :: OSI Approved :: MIT License'
 ]
 include = [
-        'README.md',
         'LICENCE'
 ]
 
