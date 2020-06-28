@@ -10,11 +10,14 @@ jobs:
     name: Python ${{ matrix.python-version }}
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-python@v2
+    - name: Setup Python
+      uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
         architecture: x64
-    - run: pip install poetry==1.0.9
-    - run: poetry install
-    # - run: poetry add tox-gh-actions
-    - run: poetry run tox -e py
+    - name: Install Poetry and other packages
+      run: pip install poetry==1.0.9
+      run: poetry install
+    - name: Run tox
+      # Run tox using the version of Python in `PATH`
+      run: poetry run tox -e py
