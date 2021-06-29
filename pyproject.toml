@@ -21,7 +21,7 @@ include = [
 
 [tool.poetry.dependencies]
 python = "^3.6"
-billiard = "3.6.3.0"
+billiard = "^3.6.3.0"
 scrapy = "^2.2.0"
 
 [tool.poetry.dev-dependencies]
