@@ -28,5 +28,6 @@ def celery_job(url):
 
 class ScrapyScriptCeleryTests(unittest.TestCase):
     def test_celery_job(self):
+        # for unit testing, call celery synchronously
         task = celery_job.s("https://www.python.org").apply()
         self.assertGreater(len(task.result[0]["data"]), 0)
