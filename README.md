@@ -1,4 +1,4 @@
-![Build](https://github.com/jschnurr/scrapyscript/workflows/Tests/badge.svg) [![PyPI](https://img.shields.io/pypi/v/scrapyscript.svg)](https://pypi.org/project/scrapyscript/)
+![Build](https://github.com/jschnurr/scrapyscript/workflows/Tests/badge.svg) [![PyPI](https://img.shields.io/pypi/v/scrapyscript.svg)](https://pypi.org/project/scrapyscript/) ![Python](https://img.shields.io/pypi/pyversions/scrapyscript.svg)
 
 # Overview
 
