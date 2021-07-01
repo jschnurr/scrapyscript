@@ -28,6 +28,7 @@ scrapy = "^2.2.0"
 black = "^19.10b0"
 pytest = "^5.4.3"
 tox = "^3.16.0"
+pylint = "^2.9.3"
 
 [build-system]
 requires = ["poetry>=1.0.9"]
