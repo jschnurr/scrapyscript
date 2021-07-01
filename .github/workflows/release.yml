@@ -15,7 +15,7 @@ jobs:
         architecture: x64
     - name: Install Poetry and other packages
       run: |
-        pip install poetry^1.0.9
+        pip install poetry>=1.0.9
         poetry install
     - name: Run tox
       # Run tox using the version of Python in `PATH`
