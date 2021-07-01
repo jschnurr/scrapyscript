@@ -20,5 +20,4 @@ jobs:
     - name: Run tox
       # Run tox using the version of Python in `PATH`
       run: poetry run tox -e py
-    - run: poetry build
-    - run: poetry publish --username=__token__ --password=${{ secrets.PYPI_TOKEN }}
+    - run: poetry publish --build --username=__token__ --password=${{ secrets.PYPI_TOKEN }}
