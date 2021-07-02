@@ -24,7 +24,12 @@
 
 Scrapyscript is a Python library you can use to run [Scrapy](https://github.com/scrapy/scrapy) spiders directly from your code. Scrapy is a great framework to use for scraping projects, but sometimes you don't need the whole framework, and just want to run a small spider from a script or a [Celery](https://github.com/celery/celery) job. That's where Scrapyscript comes in.
 
-With Scrapyscript, you wrap regular Scrapy [Spiders](https://docs.scrapy.org/en/latest/topics/spiders.html) in a `Job`, load the `Job(s)` in a `Processor`, and call `processor.run()` to execute them, returning all results when the last job completes.
+With Scrapyscript, you can:
+- wrap regular Scrapy [Spiders](https://docs.scrapy.org/en/latest/topics/spiders.html) in a `Job`
+- load the `Job(s)` in a `Processor`
+- call `processor.run()` to execute them
+
+... returning all results when the last job completes.
 
 Let's see an example.
 
