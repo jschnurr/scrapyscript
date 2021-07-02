@@ -128,10 +128,11 @@ Updates, additional features or bug fixes are always welcome.
 
 ### Version History
 
-- 1.1.2 - 01-Jul-2021 - Fix #11 to allow billiard version to float
-- 1.1.0 - 27-Jun-2020 - Python 3.6+ only, dependency version bumps
-- 1.0.0 - 10-Dec-2017 - API changes to pass *args and **kwargs to running spider
-- 0.1.0 - 28-May-2017 - patches to support Celery 4+ and Billiard 3.5.+. Thanks to @mrge and @bmartel.
+- 1.1.3 - Jul-2021 - Bump versions, add examples, readme changes
+- 1.1.2 - Jul-2021 - Fix #11 to allow billiard version to float
+- 1.1.0 - Jun-2020 - Python 3.6+ only, dependency version bumps
+- 1.0.0 - Dec-2017 - API changes to pass *args and **kwargs to running spider
+- 0.1.0 - May-2017 - patches to support Celery 4+ and Billiard 3.5.+. Thanks to @mrge and @bmartel.
 
 ### License
 
