@@ -7,7 +7,17 @@
 <h4 align="center">Embed Scrapy jobs directly in your code</h4>
 
 <p align="center">
-![Build](https://github.com/jschnurr/scrapyscript/workflows/Tests/badge.svg) [![PyPI](https://img.shields.io/pypi/v/scrapyscript.svg)](https://pypi.org/project/scrapyscript/) ![Python](https://img.shields.io/pypi/pyversions/scrapyscript.svg)
+  <a href="https://github.com/jschnurr/scrapyscript/releases">
+    <img src="https://img.shields.io/github/release/jschnurr/scrapyscript.svg">
+  </a>
+
+  <a href="https://pypi.org/project/scrapyscript/">
+    <img src="https://img.shields.io/pypi/v/scrapyscript.svg">
+  </a>
+
+  <img src="https://github.com/jschnurr/scrapyscript/workflows/Tests/badge.svg">
+  
+  <img src="https://img.shields.io/pypi/pyversions/scrapyscript.svg">
 </p>
 
 ### What is Scrapyscript?
@@ -43,7 +53,7 @@ print(results)
 ```json
 [{'title': 'Welcome to Python.org'}]
 ```
-See the `examples` directory for more, including a complete `Celery` example.
+See the [examples](examples/) directory for more, including a complete `Celery` example.
 
 ### Install
 
