@@ -105,13 +105,13 @@ results = processor.run([myjob1, myjob2, ...])
 ```
 
 #### A word about Spider outputs
-As per the [scrapy docs](https://doc.scrapy.org/en/latest/topics/spiders.html), a Spider
+As per the [scrapy docs](https://doc.scrapy.org/en/latest/topics/spiders.html), a `Spider`
 must return an iterable of `Request` and/or `dict` or `Item` objects.
 
-Requests will be consumed by Scrapy inside the Job. Dicts or Item objects will be queued
+Requests will be consumed by Scrapy inside the `Job`. `dict` or `scrapy.Item` objects will be queued
 and output together when all spiders are finished.
 
-Due to the way billiard handles communication between processes, each dict or item must be
+Due to the way billiard handles communication between processes, each `dict` or `Item` must be
 pickle-able using pickle protocol 0. **It's generally best to output `dict` objects from your Spider.**
 
 ### Contributing
