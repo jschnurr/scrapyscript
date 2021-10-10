@@ -8,9 +8,9 @@ readme = "README.md"
 repository = "https://github.com/jschnurr/scrapyscript"
 keywords = ["scrapy"]
 classifiers = [
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
         'Framework :: Scrapy',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License'
@@ -20,24 +20,24 @@ include = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.6"
-billiard = "3.6.3.0"
-scrapy = "^2.2.0"
+python = "^3.8"
+billiard = "^3.6"
+scrapy = "^2.5"
 
 [tool.poetry.dev-dependencies]
-black = "^19.10b0"
-pytest = "^5.4.3"
-tox = "^3.16.0"
+black = "^21.9b0"
+pytest = "^6.2"
+tox = "^3.24"
 
 [build-system]
-requires = ["poetry>=1.0.9"]
+requires = ["poetry>=1.1.0"]
 build-backend = "poetry.masonry.api"
 
 [tool.tox]
 legacy_tox_ini = """
 [tox]
 isolated_build = true
-envlist = py36,py37,py38
+envlist = py38,py39,py10
 
 [testenv]
 whitelist_externals = poetry
