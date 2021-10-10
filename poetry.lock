@@ -894,7 +894,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "21d7ded1330c94b10abfe959828db988071b053fd8446870cb1e23207c19e525"
+content-hash = "775f467832717618c98cf396f110ee3e4adaf3c2d4734b599d25aaca9da56e1a"
 
 [metadata.files]
 amqp = [
