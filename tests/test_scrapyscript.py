@@ -20,6 +20,15 @@ class MySpider(Spider):
         ret.append({'title': title})
         return ret
 
+class BigSpider(Spider):
+    name = 'myspider'
+
+    def start_requests(self):
+        yield scrapy.Request(self.url)
+
+    def parse(self, response):
+        longstr = "x" * 1073741824 * 2  # 2gb
+        return longstr
 
 class BadSpider(Spider):
     name = 'badspider'
@@ -78,6 +87,12 @@ class ScrapyScriptTests(unittest.TestCase):
         job = Job(BadSpider, url='http://www.python.org')
         results = Processor().run(job)
         self.assertEqual(results, [])
+
+    def test_big_return_value(self):
+        job = Job(BigSpider, url='http://www.python.org')
+        results = Processor().run(job)
+        self.assertEqual(results, [])
+
 
 if __name__ == '__main__':
     unittest.main()
