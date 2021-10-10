@@ -28,7 +28,7 @@ class Job(object):
 
     def __init__(self, spider, *args, **kwargs):
         """Parms:
-          spider (spidercls): the spider to be run for this job.
+        spider (spidercls): the spider to be run for this job.
         """
         self.spider = spider
         self.args = args
@@ -36,7 +36,7 @@ class Job(object):
 
 
 class Processor(Process):
-    """ Start a twisted reactor and run the provided scrapy spiders.
+    """Start a twisted reactor and run the provided scrapy spiders.
     Blocks until all have finished.
     """
 
