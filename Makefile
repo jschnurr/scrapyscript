@@ -1,4 +1,4 @@
-.PHONY: lint test tox build
+.PHONY: lint test tox build clean
 
 lint:
 	poetry run black --check --diff --quiet src
@@ -10,5 +10,11 @@ test: lint
 tox:
 	poetry run tox
 
-build: pytest
+build: clean test
 	poetry build -vv
+
+clean:
+	rm -rf dist/
+	rm -rf .pytest_cache/
+	rm -rf src/scrapyscript.egg-info
+	rm -rf .tox/
