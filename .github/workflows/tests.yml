@@ -6,7 +6,7 @@ jobs:
     strategy:
       matrix:
         platform: [ubuntu-latest, windows-latest]
-        python-version: ['3.6', '3.7', '3.8']
+        python-version: ['3.6', '3.7', '3.8', '3.9']
     name: Python ${{ matrix.python-version }}
     steps:
     - uses: actions/checkout@v2
@@ -17,7 +17,8 @@ jobs:
         architecture: x64
     - name: Install Poetry and other packages
       run: |
-        pip install poetry==1.0.9
+        pip install poetry>=1.1.7
+        poetry check
         poetry install
     - name: Run tox
       # Run tox using the version of Python in `PATH`

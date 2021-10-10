@@ -1,157 +1,139 @@
-![Build](https://github.com/jschnurr/scrapyscript/workflows/Tests/badge.svg) [![PyPI](https://img.shields.io/pypi/v/scrapyscript.svg)](https://pypi.org/project/scrapyscript/)
+<h1 align="center">
+  <br>
+  <a href="https://github.com/jschnurr/scrapyscript"><img src="https://i.ibb.co/ww3bNZ3/scrapyscript.png" alt="Scrapyscript"></a>
+  <br>
+</h1>
 
-# Overview
+<h4 align="center">Embed Scrapy jobs directly in your code</h4>
 
-Scrapyscript provides a minimalist interface for invoking Scrapy directly
-from your code. Define Jobs that include your spider and any object
-you would like to pass to the running spider, and then pass them to an
-instance of Processor which will block, run the spiders, and return a list
-of consolidated results.
+<p align="center">
+  <a href="https://github.com/jschnurr/scrapyscript/releases">
+    <img src="https://img.shields.io/github/release/jschnurr/scrapyscript.svg">
+  </a>
 
-Useful for leveraging the vast power of Scrapy from existing code, or to
-run Scrapy from a Celery job.
+  <a href="https://pypi.org/project/scrapyscript/">
+    <img src="https://img.shields.io/pypi/v/scrapyscript.svg">
+  </a>
 
-# Requirements
+  <img src="https://github.com/jschnurr/scrapyscript/workflows/Tests/badge.svg">
+  
+  <img src="https://img.shields.io/pypi/pyversions/scrapyscript.svg">
+</p>
 
-- Python 3.6+
-- Tested on Linux only (other platforms may work as well)
+### What is Scrapyscript?
 
-# Install
+Scrapyscript is a Python library you can use to run [Scrapy](https://github.com/scrapy/scrapy) spiders directly from your code. Scrapy is a great framework to use for scraping projects, but sometimes you don't need the whole framework, and just want to run a small spider from a script or a [Celery](https://github.com/celery/celery) job. That's where Scrapyscript comes in.
+
+With Scrapyscript, you can:
+- wrap regular Scrapy [Spiders](https://docs.scrapy.org/en/latest/topics/spiders.html) in a `Job`
+- load the `Job(s)` in a `Processor`
+- call `processor.run()` to execute them
+
+... returning all results when the last job completes.
+
+Let's see an example.
+
+```python
+import scrapy
+from scrapyscript import Job, Processor
+
+processor = Processor(settings=None)
+
+class PythonSpider(scrapy.spiders.Spider):
+    name = "myspider"
+
+    def start_requests(self):
+        yield scrapy.Request(self.url)
+
+    def parse(self, response):
+        data = response.xpath("//title/text()").extract_first()
+        return {'title': data}
+
+job = Job(PythonSpider, url="http://www.python.org")
+results = processor.run(job)
+
+print(results)
+```
+
+```json
+[{'title': 'Welcome to Python.org'}]
+```
+See the [examples](examples/) directory for more, including a complete `Celery` example.
+
+### Install
 
 ```python
 pip install scrapyscript
 ```
 
-# Example
+### Requirements
 
-Let's create a spider that retrieves the title attribute from two popular websites.
+- Python 3.6+
+- Scrapy 2.5+
 
-``` python
-from scrapyscript import Job, Processor
-from scrapy.spiders import Spider
-from scrapy import Request
-import json
 
-# Define a Scrapy Spider, which can accept *args or **kwargs
-# https://doc.scrapy.org/en/latest/topics/spiders.html#spider-arguments
-class PythonSpider(Spider):
-    name = 'myspider'
+### API
 
-    def start_requests(self):
-        yield Request(self.url)
+#### Job (spider, *args, **kwargs)
+A single request to call a spider, optionally passing in *args or **kwargs, which will be passed through to the spider constructor at runtime.
 
-    def parse(self, response):
-        title = response.xpath('//title/text()').extract()
-        return {'url': response.request.url, 'title': title}
-
-# Create jobs for each instance. *args and **kwargs supplied here will
-# be passed to the spider constructor at runtime
-githubJob = Job(PythonSpider, url='http://www.github.com')
-pythonJob = Job(PythonSpider, url='http://www.python.org')
-
-# Create a Processor, optionally passing in a Scrapy Settings object.
-processor = Processor(settings=None)
-
-# Start the reactor, and block until all spiders complete.
-data = processor.run([githubJob, pythonJob])
-
-# Print the consolidated results
-print(json.dumps(data, indent=4))
+```python
+# url will be available as self.url inside MySpider at runtime
+myjob = Job(MySpider, url='http://www.github.com')
 ```
 
-``` json
-[
-    {
-        "title": [
-            "Welcome to Python.org"
-        ],
-        "url": "https://www.python.org/"
-    },
-    {
-        "title": [
-            "The world's leading software development platform \u00b7 GitHub",
-            "1clr-code-hosting"
-        ],
-        "url": "https://github.com/"
-    }
-]
+#### Processor (settings=None)
+Create a multiprocessing reactor for running spiders. Optionally provide a `scrapy.settings.Settings` object to configure the Scrapy runtime.
+
+```python
+settings = scrapy.settings.Settings(values={'LOG_LEVEL': 'WARNING'})
+processor = Processor(settings=settings)
 ```
 
-# Spider Output Types
-As per the [scrapy docs](https://doc.scrapy.org/en/latest/topics/spiders.html), a Spider
-must return an iterable of **Request** and/or **dicts** or **Item** objects.
+#### Processor.run(jobs)
+Start the Scrapy engine, and execute one or more jobs.  Blocks and returns consolidated results in a single list.
+`jobs` can be a single instance of `Job`, or a list.
 
-Requests will be consumed by Scrapy inside the Job. Dicts or Item objects will be queued
+```python
+results = processor.run(myjob)
+```
+
+or
+
+```python
+results = processor.run([myjob1, myjob2, ...])
+```
+
+#### A word about Spider outputs
+As per the [scrapy docs](https://doc.scrapy.org/en/latest/topics/spiders.html), a `Spider`
+must return an iterable of `Request` and/or `dict` or `Item` objects.
+
+Requests will be consumed by Scrapy inside the `Job`. `dict` or `scrapy.Item` objects will be queued
 and output together when all spiders are finished.
 
-Due to the way billiard handles communication between processes, each dict or item must be
-pickle-able using pickle protocol 0.
+Due to the way billiard handles communication between processes, each `dict` or `Item` must be
+pickle-able using pickle protocol 0. **It's generally best to output `dict` objects from your Spider.**
 
-# Jobs
- A job is a single request to call a specific spider, optionally passing in
- *args or **kwargs, which will be passed through to the spider constructor at runtime.
-
-```python
-def __init__(self, spider, *args, **kwargs):
-    '''Parameters:
-        spider (spidercls): the spider to be run for this job.
-    '''
-```
-
-# Processor
-A Twisted reactor for running spiders. Blocks until all have finished.
-
-## Constructor
-
-```python
-class Processor(Process):
-    def __init__(self, settings=None):
-        '''
-        Parameters:
-          settings (scrapy.settings.Settings) - settings to apply. Defaults to Scrapy defaults.
-        '''
-```
-
-## Run
-
-Starts the Scrapy engine, and executes all jobs.  Returns consolidated results in a single list.
-
-```python
-    def run(self, jobs):
-        '''
-        Parameters:
-            jobs ([Job]) - one or more Job objects to be processed.
-
-        Returns:
-            List of objects yielded by the spiders after all jobs have run.
-        '''
-```
-
-# Notes
-
-## Multiprocessing vs Billiard
-
-Scrapyscript spawns a subprocess to support the Twisted reactor. Billiard
-provides a fork of the multiprocessing library that supports Celery. This
-allows you to schedule scrapy spiders to run as Celery tasks.
-
-# Contributing
+### Contributing
 
 Updates, additional features or bug fixes are always welcome.
 
-## Setup
-- Install (Poetry)[https://python-poetry.org/docs/#installation]
+#### Setup
+- Install [Poetry](https://python-poetry.org/docs/#installation)
+- `git clone git@github.com:jschnurr/scrapyscript.git`
 - `poetry install`
 
-## Tests
+#### Tests
 - `make test` or `make tox`
 
-# Version History
+### Version History
 
-- 1.1.0 - 27-Jun-2020 - Python 3.6+ only, dependency version bumps
-- 1.0.0 - 10-Dec-2017 - API changes to pass *args and **kwargs to running spider
-- 0.1.0 - 28-May-2017 - patches to support Celery 4+ and Billiard 3.5.+. Thanks to @mrge and @bmartel.
+- 1.1.3 - Jul-2021 - Bump versions, add examples, readme changes
+- 1.1.2 - Jul-2021 - Fix #11 to allow billiard version to float
+- 1.1.0 - Jun-2020 - Python 3.6+ only, dependency version bumps
+- 1.0.0 - Dec-2017 - API changes to pass *args and **kwargs to running spider
+- 0.1.0 - May-2017 - patches to support Celery 4+ and Billiard 3.5.+. Thanks to @mrge and @bmartel.
 
-# License
+### License
 
 The MIT License (MIT). See LICENCE file for details.

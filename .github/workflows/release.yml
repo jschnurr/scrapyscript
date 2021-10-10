@@ -15,10 +15,9 @@ jobs:
         architecture: x64
     - name: Install Poetry and other packages
       run: |
-        pip install poetry==1.0.9
+        pip install poetry>=1.1.7
         poetry install
     - name: Run tox
       # Run tox using the version of Python in `PATH`
       run: poetry run tox -e py
-    - run: poetry build
-    - run: poetry publish --username=__token__ --password=${{ secrets.PYPI_TOKEN }}
+    - run: poetry publish --build --username=__token__ --password=${{ secrets.PYPI_TOKEN }}
