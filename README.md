@@ -70,6 +70,7 @@ pip install scrapyscript
 
 ### Requirements
 
+- Linux or MacOS
 - Python 3.8+
 - Scrapy 2.5+
 
