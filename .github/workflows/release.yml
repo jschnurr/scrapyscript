@@ -7,17 +7,17 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.8'
-        architecture: x64
-    - name: Install Poetry and other packages
-      run: |
-        pip install poetry>=1.1.7
-        poetry install
-    - name: Run tox
-      # Run tox using the version of Python in `PATH`
-      run: poetry run tox -e py
-    - run: poetry publish --build --username=__token__ --password=${{ secrets.PYPI_TOKEN }}
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+          architecture: x64
+      - name: Install Poetry and other packages
+        run: |
+          pip install poetry>=1.1.7
+          poetry -v --no-ansi install
+      - name: Run tox
+        # Run tox using the version of Python in `PATH`
+        run: poetry -v --no-ansi run tox -e py
+      - run: poetry -v --no-ansi publish --build --username=__token__ --password=${{ secrets.PYPI_TOKEN }}

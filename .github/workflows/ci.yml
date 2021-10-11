@@ -19,8 +19,8 @@ jobs:
       - name: Install Poetry and other packages
         run: |
           pip install poetry>=1.1.7
-          poetry check
-          poetry install
+          poetry -v --no-ansi check
+          poetry -v --no-ansi install
       - name: Run tox
         # Run tox using the version of Python in `PATH`
-        run: poetry run tox -e py
+        run: poetry -v --no-ansi run tox -e py
