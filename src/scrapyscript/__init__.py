@@ -88,10 +88,11 @@ class Processor(Process):
 
         p = Process(target=self._crawl, args=[jobs])
         p.start()
+        results = self.results.get()
         p.join()
         p.terminate()
 
-        return self.results.get()
+        return results
 
     def validate(self, jobs):
         if not all([isinstance(x, Job) for x in jobs]):
