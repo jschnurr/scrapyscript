@@ -92,6 +92,9 @@ class ScrapyScriptTests(unittest.TestCase):
         ]
 
         results = Processor().run(jobs)
+        data = [item['data'].lower() for item in results]
+        self.assertEqual(any('python' in s for s in data), True)
+        self.assertEqual(any('github' in s for s in data), True)
         self.assertEqual(len(results), 2)
 
     def test_bad_return_value(self):
