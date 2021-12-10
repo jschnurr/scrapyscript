@@ -8,6 +8,10 @@ import scrapy
 from scrapyscript import Job, Processor, ScrapyScriptException
 
 
+class MyItem(scrapy.Item):
+    bot = scrapy.Field()
+    data = scrapy.Field()
+
 class MySpider(Spider):
     name = 'myspider'
 
@@ -15,11 +19,8 @@ class MySpider(Spider):
         yield scrapy.Request(self.url)
 
     def parse(self, response):
-        title = response.xpath('//title/text()').extract()
-        ret = []
-        ret.append({'bot': self.settings['BOT_NAME']})
-        ret.append({'title': title})
-        return ret
+        title = response.xpath('//title/text()').extract_first()
+        return MyItem(bot=self.settings['BOT_NAME'], data=title)
 
 class BigSpider(Spider):
     name = 'bigspider'
@@ -50,9 +51,6 @@ class ParamReturnSpider(Spider):
 
     def parse(self, response):
         return dict(category=self.category, fruit=self.fruit)
-
-class MyItem(scrapy.Item):
-    data = scrapy.Field()
 
 class MyItemSpider(Spider):
     name = 'myitemspider'
@@ -85,7 +83,7 @@ class ScrapyScriptTests(unittest.TestCase):
         job = Job(MySpider, url='http://www.python.org')
         results = Processor(settings=settings).run(job)
 
-        self.assertIn({'bot': 'alpha'}, results)
+        self.assertEqual(results[0]['bot'], 'alpha')
 
     def test_multiple_jobs(self):
         jobs = [
@@ -94,7 +92,7 @@ class ScrapyScriptTests(unittest.TestCase):
         ]
 
         results = Processor().run(jobs)
-        self.assertEqual(len(results), 4)
+        self.assertEqual(len(results), 2)
 
     def test_bad_return_value(self):
         job = Job(BadSpider, url='http://www.python.org')
