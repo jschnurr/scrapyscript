@@ -30,6 +30,7 @@ pytest = "^6.2"
 pylint = "^2.9"
 tox = "^3.24"
 celery = "^5.1"
+pytest-timeout = "^2.0.1"
 
 [build-system]
 requires = ["poetry>=1.1.7"]

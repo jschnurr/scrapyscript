@@ -1,4 +1,5 @@
 import unittest
+import pytest
 
 from scrapy.settings import Settings
 from scrapy.spiders import Spider
@@ -50,6 +51,18 @@ class ParamReturnSpider(Spider):
     def parse(self, response):
         return dict(category=self.category, fruit=self.fruit)
 
+class MyItem(scrapy.Item):
+    data = scrapy.Field()
+
+class MyItemSpider(Spider):
+    name = 'myitemspider'
+
+    def start_requests(self):
+        yield scrapy.Request(self.url)
+
+    def parse(self, response):
+        title = response.xpath('//title/text()').extract_first()
+        return MyItem(data=title + 'x' * 1048576)
 
 class ScrapyScriptTests(unittest.TestCase):
     def test_create_valid_job(self):
@@ -93,6 +106,13 @@ class ScrapyScriptTests(unittest.TestCase):
         results = Processor().run(job)
         self.assertEqual(results, [])
 
+    # larger, long running jobs can deadlock see https://github.com/jschnurr/scrapyscript/issues/3
+    @pytest.mark.timeout(30)
+    def test_for_deadlock(self):
+        jobs = [Job(MyItemSpider, url='http://www.python.org') for i in range(50)]
+
+        results = Processor().run(jobs)
+        self.assertEqual(len(results), 50)
 
 if __name__ == '__main__':
     unittest.main()
