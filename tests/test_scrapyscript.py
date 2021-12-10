@@ -22,7 +22,7 @@ class MySpider(Spider):
         return ret
 
 class BigSpider(Spider):
-    name = 'myspider'
+    name = 'bigspider'
 
     def start_requests(self):
         yield scrapy.Request(self.url)
@@ -41,7 +41,7 @@ class BadSpider(Spider):
         return True
 
 class ParamReturnSpider(Spider):
-    name = 'myspider'
+    name = 'paramreturnspider'
     start_urls = ['http://www.python.org']
 
     def __init__(self, category=None, *args, **kwargs):
@@ -87,7 +87,7 @@ class ScrapyScriptTests(unittest.TestCase):
 
         self.assertIn({'bot': 'alpha'}, results)
 
-    def test_mulitple_jobs(self):
+    def test_multiple_jobs(self):
         jobs = [
             Job(MySpider, url='http://www.python.org'),
             Job(MySpider, url='http://www.github.com')
