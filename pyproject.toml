@@ -16,8 +16,13 @@ classifiers = [
         'License :: OSI Approved :: MIT License'
 ]
 include = [
-        'LICENCE'
+        'LICENCE',
+        'CHANGELOG.md'
 ]
+
+[tool.poetry.urls]
+"Bug tracker" = "https://github.com/jschnurr/scrapyscript/issues"
+"Changelog" = "https://github.com/jschnurr/scrapyscript/blob/main/CHANGELOG.md"
 
 [tool.poetry.dependencies]
 python = "^3.8"
