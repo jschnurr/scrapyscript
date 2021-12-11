@@ -1,4 +1,3 @@
-import unittest
 import pytest
 
 from scrapy.settings import Settings
@@ -68,20 +67,21 @@ class MyItemSpider(Spider):
         return MyItem(data=title + "x" * 1048576)
 
 
-class ScrapyScriptTests(unittest.TestCase):
+class TestScrapyScript:
     def test_create_valid_job(self):
         spider = MySpider
         job = Job(spider)
-        self.assertIsInstance(job, Job)
+        assert isinstance(job, Job)
 
     def test_parameters_passed_to_spider(self):
         spider = ParamReturnSpider
         job = Job(spider, "cat1", fruit="banana")
         result = Processor().run(job)
-        self.assertEqual(result, [dict(category="cat1", fruit="banana")])
+        assert result == [dict(category="cat1", fruit="banana")]
 
     def test_no_spider_provided(self):
-        self.assertRaises(TypeError, Job)
+        with pytest.raises(TypeError):
+            Job()
 
     def test_settings_flow_through_to_spider(self):
         settings = Settings()
@@ -89,7 +89,7 @@ class ScrapyScriptTests(unittest.TestCase):
         job = Job(MySpider, url="http://www.python.org")
         results = Processor(settings=settings).run(job)
 
-        self.assertEqual(results[0]["bot"], "alpha")
+        assert results[0]["bot"] == "alpha"
 
     def test_multiple_jobs(self):
         jobs = [
@@ -99,19 +99,19 @@ class ScrapyScriptTests(unittest.TestCase):
 
         results = Processor().run(jobs)
         data = [item["data"].lower() for item in results]
-        self.assertEqual(any("python" in s for s in data), True)
-        self.assertEqual(any("github" in s for s in data), True)
-        self.assertEqual(len(results), 2)
+        assert any("python" in s for s in data)
+        assert any("github" in s for s in data)
+        assert len(results) == 2
 
     def test_bad_return_value(self):
         job = Job(BadSpider, url="http://www.python.org")
         results = Processor().run(job)
-        self.assertEqual(results, [])
+        assert results == []
 
     def test_big_return_value(self):
         job = Job(BigSpider, url="http://www.python.org")
         results = Processor().run(job)
-        self.assertEqual(results, [])
+        assert results == []
 
     # larger, long running jobs can deadlock see https://github.com/jschnurr/scrapyscript/issues/3
     @pytest.mark.timeout(30)
@@ -119,20 +119,17 @@ class ScrapyScriptTests(unittest.TestCase):
         jobs = [Job(MyItemSpider, url="http://www.python.org") for i in range(50)]
 
         results = Processor().run(jobs)
-        self.assertEqual(len(results), 50)
+        assert len(results) == 50
 
 
-class ProcessorTests(unittest.TestCase):
+class TestProcessor:
     def test_item_scraped(self):
         p = Processor()
         p._item_scraped("test")
-        self.assertEqual(p.items[0], "test")
+        assert p.items[0] == "test"
 
     def test_job_validate(self):
-        jobs = [Job(BigSpider, url="http://www.python.org"), "not a Job"]
-        p = Processor()
-        self.assertRaises(ScrapyScriptException, p.validate, jobs)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        with pytest.raises(ScrapyScriptException):
+            jobs = [Job(BigSpider, url="http://www.python.org"), "not a Job"]
+            p = Processor()
+            p.validate(jobs)
