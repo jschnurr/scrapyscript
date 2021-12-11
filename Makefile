@@ -5,7 +5,7 @@ lint:
 
 test: lint
 	poetry check
-	poetry run coverage run -m pytest && poetry run coverage report -m
+	poetry run coverage run -m pytest -v tests && poetry run coverage report -m
 
 tox:
 	poetry run tox
