@@ -128,6 +128,11 @@ class ProcessorTests(unittest.TestCase):
         p._item_scraped("test")
         self.assertEqual(p.items[0], "test")
 
+    def test_job_validate(self):
+        jobs = [Job(BigSpider, url="http://www.python.org"), "not a Job"]
+        p = Processor()
+        self.assertRaises(ScrapyScriptException, p.validate, jobs)
+
 
 if __name__ == "__main__":
     unittest.main()
