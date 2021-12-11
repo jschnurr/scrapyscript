@@ -1,7 +1,7 @@
 .PHONY: lint test tox build clean
 
 lint:
-	poetry run black --check --diff src
+	poetry run black --check --diff src tests
 
 test: lint
 	poetry check
