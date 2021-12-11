@@ -122,5 +122,12 @@ class ScrapyScriptTests(unittest.TestCase):
         self.assertEqual(len(results), 50)
 
 
+class ProcessorTests(unittest.TestCase):
+    def test_item_scraped(self):
+        p = Processor()
+        p._item_scraped("test")
+        self.assertEqual(p.items[0], "test")
+
+
 if __name__ == "__main__":
     unittest.main()
