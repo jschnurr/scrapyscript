@@ -36,6 +36,12 @@ pylint = "^2.9"
 tox = "^3.24"
 celery = "^5.1"
 pytest-timeout = "^2.0.1"
+coverage = {extras = ["toml"], version = "^6.2"}
+[tool.coverage.run]
+omit = [".*", "*/site-packages/*", "tests/*"]
+
+[tool.coverage.report]
+fail_under = 80
 
 [build-system]
 requires = ["poetry>=1.1.7"]

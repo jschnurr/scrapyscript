@@ -5,7 +5,7 @@ lint:
 
 test: lint
 	poetry check
-	poetry run pytest
+	poetry run coverage run -m pytest && poetry run coverage report -m
 
 tox:
 	poetry run tox
@@ -18,3 +18,4 @@ clean:
 	rm -rf .pytest_cache/
 	rm -rf src/scrapyscript.egg-info
 	rm -rf .tox/
+	rm .coverage
