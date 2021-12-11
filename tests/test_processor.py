@@ -77,3 +77,18 @@ def test_for_deadlock():
 
     results = Processor().run(jobs)
     assert len(results) == 50
+
+
+def test_crawl_calls_crawlerprocess_with_correct_params(mocker):
+    mock_crawl = mocker.patch("scrapyscript.CrawlerProcess")
+    mock_crawl().crawl.return_value = None
+    mock_crawl().start.return_value = None
+    mock_crawl().stop.return_value = None
+
+    url = "http://www.python.org"
+    job = Job(TitleSpider, url=url)
+    Processor()._crawl([job])
+
+    mock_crawl().crawl.assert_called_with(job.spider, url=url)
+    mock_crawl().start.assert_called_once()
+    mock_crawl().stop.assert_called_once()
