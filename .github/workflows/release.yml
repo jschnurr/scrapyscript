@@ -13,11 +13,10 @@ jobs:
         with:
           python-version: '3.8'
           architecture: x64
-      - name: Install Poetry and other packages
+      - name: Install dependencies
         run: |
           pip install poetry>=1.1.7
-          poetry install -v
-      - name: Run tox
-        # Run tox using the version of Python in `PATH`
-        run: poetry run tox -e py -v
-      - run: poetry publish --build --username=__token__ --password=${{ secrets.PYPI_TOKEN }} -v
+      - name: Build and publish
+        run: |
+          poetry version $(git describe --tags --abbrev=0 | sed 's/v//')
+          poetry publish --build --username=__token__ --password=${{ secrets.PYPI_TOKEN }} -v
