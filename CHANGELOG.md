@@ -1,5 +1,13 @@
 # Change Log
 
+## [1.1.5] - 2021-10-10
+
+-   Fix #3 which caused deadlocks and process to hang forever. Thanks @vidakDK and @covuworie!
+-   Docs update to factor changes into CHANGELOG.md
+-   Added internal feature to have CI set PyPi version from git tag on release
+-   Refactored tests and increased coverage to 100%
+
+
 ## [1.1.4] - 2021-10-10
 
 -   Remove support for Python 3.6 and 3.7
