@@ -44,5 +44,5 @@ omit = [".*", "*/site-packages/*", "tests/*"]
 fail_under = 80
 
 [build-system]
-requires = ["poetry>=1.1.7"]
+requires = ["poetry>=1.1.12"]
 build-backend = "poetry.masonry.api"
