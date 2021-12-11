@@ -1,6 +1,6 @@
 # Change Log
 
-## [1.1.5] - 2021-10-10
+## [1.1.5] - 2021-12-11
 
 -   Fix #3 which caused deadlocks and process to hang forever. Thanks @vidakDK and @covuworie!
 -   Docs update to factor changes into CHANGELOG.md
