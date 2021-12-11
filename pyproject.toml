@@ -44,7 +44,7 @@ tox-poetry-installer = {extras = ["poetry"], version = "^0.8.2"}
 omit = [".*", "*/site-packages/*", "tests/*"]
 
 [tool.coverage.report]
-fail_under = 80
+fail_under = 100
 
 [build-system]
 requires = ["poetry>=1.1.12"]
