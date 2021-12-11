@@ -18,4 +18,4 @@ clean:
 	rm -rf .pytest_cache/
 	rm -rf src/scrapyscript.egg-info
 	rm -rf .tox/
-	rm .coverage
+	rm -f .coverage
