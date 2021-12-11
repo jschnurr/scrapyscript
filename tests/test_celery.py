@@ -1,5 +1,3 @@
-import unittest
-
 import scrapy
 from celery import Celery
 from scrapy.settings import Settings
@@ -49,11 +47,11 @@ def celery_job_with_custom_settings(url, settings):
     return Processor(settings=settings).run(job)
 
 
-class ScrapyScriptCeleryTests(unittest.TestCase):
+class TestScrapyScriptCelery:
     def test_celery_job(self):
         # for unit testing, call celery synchronously
         task = celery_job.s("https://www.python.org").apply()
-        self.assertGreater(len(task.result[0]["data"]), 0)
+        assert len(task.result[0]["data"]) > 0
 
     def test_celery_job_with_settings(self):
         settings = Settings()
@@ -63,4 +61,4 @@ class ScrapyScriptCeleryTests(unittest.TestCase):
             "https://www.python.org", settings
         ).apply()
         print(task.result[0])
-        self.assertEqual(task.result[0]["bot"], "alpha")
+        assert task.result[0]["bot"] == "alpha"
