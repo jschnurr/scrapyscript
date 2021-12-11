@@ -4,33 +4,7 @@ from scrapy.settings import Settings
 from scrapy.spiders import Spider
 from scrapyscript import Job, Processor, ScrapyScriptException
 
-
-class TitleSpider(Spider):
-    name = "titlespider"
-
-    def start_requests(self):
-        yield scrapy.Request(self.url)
-
-    def parse(self, response):
-        page_title = response.xpath("//title/text()").extract_first()
-        return {"data": page_title}
-
-
-class MyItem(scrapy.Item):
-    bot = scrapy.Field()
-    data = scrapy.Field()
-
-
-class ItemSpider(Spider):
-    name = "itemspider"
-
-    def start_requests(self):
-        yield scrapy.Request(self.url)
-
-    def parse(self, response):
-        title = response.xpath("//title/text()").extract_first()
-        return MyItem(bot=self.settings["BOT_NAME"], data=title)
-
+from spiders import ItemSpider, TitleSpider
 
 app = Celery("hello", broker="amqp://guest@localhost//")
 

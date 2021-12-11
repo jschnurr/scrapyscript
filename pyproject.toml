@@ -36,6 +36,7 @@ pylint = "^2.9"
 tox = "^3.24"
 celery = "^5.1"
 pytest-timeout = "^2.0.1"
+pytest-mock = "^3.6.1"
 coverage = {extras = ["toml"], version = "^6.2"}
 tox-poetry-installer = {extras = ["poetry"], version = "^0.8.2"}
 
