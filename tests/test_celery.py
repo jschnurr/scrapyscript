@@ -6,8 +6,8 @@ from scrapy.spiders import Spider
 from scrapyscript import Job, Processor, ScrapyScriptException
 
 
-class MySpider(Spider):
-    name = "myspider"
+class TitleSpider(Spider):
+    name = "titlespider"
 
     def start_requests(self):
         yield scrapy.Request(self.url)
@@ -22,7 +22,7 @@ app = Celery("hello", broker="amqp://guest@localhost//")
 
 @app.task
 def celery_job(url):
-    job = Job(MySpider, url=url)
+    job = Job(TitleSpider, url=url)
     return Processor().run(job)
 
 
