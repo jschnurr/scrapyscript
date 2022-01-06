@@ -34,7 +34,7 @@ black = "^21.9b0"
 pytest = "^6.2"
 pylint = "^2.9"
 tox = "^3.24"
-celery = "^5.1"
+celery = "^5.2"
 pytest-timeout = "^2.0.1"
 pytest-mock = "^3.6.1"
 coverage = {extras = ["toml"], version = "^6.2"}
